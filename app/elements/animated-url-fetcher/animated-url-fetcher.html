@@ -1,0 +1,328 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/slide-from-bottom-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+
+<dom-module id="list-item">
+    <template>
+        <style>
+            paper-checkbox {
+                padding: 10px 20px 10px 20px;
+                margin: 0;
+            }
+        </style>
+        <paper-checkbox checked={{selected}}></paper-checkbox>
+        <content></content>
+    </template>
+    <script>
+        Polymer({
+            is: "list-item",
+            properties: {
+                selected: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                }
+            }
+        });
+    </script>
+</dom-module>
+
+<dom-module id="animated-url-fetcher">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+            }
+
+            span,
+            input {
+                @apply(--paper-font-body2);
+            }
+
+            paper-material {
+                background: white;
+                border-radius: 2px;
+            }
+
+            paper-material.header {
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+                color: white;
+                background: var(--light-primary-color);
+                text-transform: uppercase;
+                margin-bottom: 10px;
+            }
+
+            paper-material.header > * {
+                margin: 0;
+                padding: 15px 20px 15px 20px;
+                background: none;
+                color: inherit;
+                border-color: white;
+                --paper-checkbox-unchecked-color: white;
+            }
+
+            .layout-horizontal-center {
+                @apply(--layout-horizontal);
+                @apply(--layout-end);
+            }
+
+            .items-list {
+                @apply(--layout-vertical);
+                padding: 0;
+            }
+
+            .list-item {
+                margin: 0;
+                padding: 0;
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            }
+
+            .list-item > * {
+                padding: 10px 20px 10px 20px;
+                margin: 0;
+            }
+
+            .listToolBar {
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+                flex-wrap: wrap;
+                width: 100%;
+                margin-bottom:10px;
+            }
+
+            .listToolBar > div{
+                width:250px;
+            }
+            .listToolBar > div,paper-button {
+                margin: 0 20px 0 20px;
+            }
+            .flex{
+                margin:0;
+            }
+
+            .listToolBar paper-icon-button {
+                align-self: flex-end;
+                opacity: 0.54;
+            }
+
+            .title {
+                @apply(--paper-font-headline);
+                color: var(--primary-text-color);
+                margin: 10px 20px 0 20px;
+            }
+
+            .quote{
+                margin: 0 20px 0 20px;
+            }
+            .quote *{
+                color: var(--secondary-text-color);
+                @apply(--paper-font-caption);
+            }
+        </style>
+        <h2 class="title">Select An item to edit</h2>
+        <p class="quote"><span>Selected <span>{{numSelected}}</span> of <span>{{numTotal}}</span></span></p>
+        <div class="listToolBar">
+            <div class="layout-horizontal-center">
+                <paper-dropdown-menu id="action" label="Action" class="flex">
+                    <paper-listbox class="dropdown-content">
+                        <paper-item>Action One</paper-item>
+                        <paper-item>Action One</paper-item>
+                        <paper-item>Action One</paper-item>
+                        <paper-item>Action One</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+                <paper-icon-button icon="send"></paper-icon-button>
+            </div>
+            <div class="layout-horizontal-center">
+                <paper-input class="flex" label="Search" place-holder="Search within this model...">
+                </paper-input>
+                <paper-icon-button icon="search"></paper-icon-button>
+            </div>
+            <span class="flex"></span>
+
+            <paper-button raised>+ Add Item</paper-button>
+        </div>
+        <paper-material class="header" elevation="2">
+            <paper-checkbox id="selectAll"></paper-checkbox>
+            <paper-button class="flex layout-horizontal-center">Title<span class="flex"></span>
+                <iron-icon icon="arrow-drop-down"></iron-icon>
+            </paper-button>
+            <div class="flex">Description</div>
+            <div class="flex">Date</div>
+        </paper-material>
+        <paper-material class="items-list">
+            <iron-selector multi id="list-selector" selected-values="{{selectedValues}}" selected-attribute="selected"
+                           items="{{items}}">
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+                <list-item class="list-item">
+                    <a class="flex layout-horizontal-center button">Title</a>
+                    <div class="flex">Description</div>
+                    <div class="flex">Date</div>
+                </list-item>
+            </iron-selector>
+        </paper-material>
+
+
+    </template>
+
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'animated-url-fetcher',
+
+                properties: {
+                    entryAnimation: {
+                        type: String,
+                        value: 'slide-from-bottom-animation',
+                        notify: true
+                    },
+                    exitAnimation: {
+                        type: String,
+                        value: 'fade-out-animation',
+                        notify: true
+                    },
+                    numTotal: {
+                        type: Int8Array,
+                        value: 0,
+                        notify: true
+                    },
+                    numSelected: {
+                        type: Int8Array,
+                        value: 0,
+                        notify: true
+                    }
+                },
+                listeners: {
+                    'list-selector.iron-items-changed': 'allSelected',
+                    'list-selector.iron-select': 'allSelected',
+                    'list-selector.iron-deselect': 'allSelected',
+                    'selectAll.tap': 'selectAll'
+                },
+                allSelected: function () {
+                    var selector = this.$$("#list-selector");
+                    var allSelect = this.$.selectAll;
+                    if (selector.items == undefined || selector.selectedValues == undefined) allSelect.checked = false;
+                    else {
+                        allSelect.checked = selector.items.length == selector.selectedValues.length;
+                        this.numSelected = selector.selectedValues.length;
+                        this.numTotal = selector.items.length;
+                    }
+                },
+                selectAll: function (detail) {
+                    var truth = this.$.selectAll.checked;
+                    var selector = this.$$("#list-selector");
+                    if (!truth) {
+                        selector.selectedValues = [];
+                        return;
+                    }
+                    var arr = [];
+                    for (var i = 0; i < selector.items.length; i++) {
+                        var index = selector.indexOf(selector.items[i]);
+                        arr.push(index);
+                    }
+                    selector.selectedValues = arr;
+                },
+            });
+        })();
+    </script>
+</dom-module>
